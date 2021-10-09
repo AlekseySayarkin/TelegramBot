@@ -10,6 +10,7 @@ import java.util.List;
 public interface CityService {
 
     City getCityById(Integer id) throws BeanNotFoundException;
+    City getByName(String name);
     List<City> getAllCities(Integer page, Integer size, String sortType, String sortBy)
             throws BeanNotFoundException;
     City addCity(City city) throws BeanCreationException;

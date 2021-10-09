@@ -21,6 +21,7 @@ import java.util.Objects;
 public class DefaultCityService implements CityService {
 
     private static final String FAILED_TO_FIND_CITY_ERROR_MESSAGE = "Failed to find city by id";
+    private static final String FAILED_TO_FIND_CITY_BY_NAME_ERROR_MESSAGE = "Failed to find city by name";
     private static final String FAILED_TO_FIND_CITIES_ERROR_MESSAGE = "Failed to find all cities";
     private static final String FAILED_TO_SAVE_CITY_ERROR_MESSAGE = "Failed to save city";
     private static final String FAILED_TO_UPDATE_CITY_ERROR_MESSAGE = "Failed to update city";
@@ -39,6 +40,14 @@ public class DefaultCityService implements CityService {
         return cityRepository.findById(id).orElseThrow(() -> {
             log.error(FAILED_TO_FIND_CITY_ERROR_MESSAGE + " :{}", id);
             return new BeanNotFoundException(FAILED_TO_FIND_CITY_ERROR_MESSAGE);
+        });
+    }
+
+    @Override
+    public City getByName(String name) {
+        return cityRepository.findByName(name).orElseThrow(() -> {
+            log.error(FAILED_TO_FIND_CITY_BY_NAME_ERROR_MESSAGE + " :{}", name);
+            return new BeanNotFoundException(FAILED_TO_FIND_CITY_BY_NAME_ERROR_MESSAGE);
         });
     }
 
