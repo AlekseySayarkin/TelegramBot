@@ -28,7 +28,7 @@ public class DefaultCountryService implements CountryService {
     @Override
     public Country getCountryById(Integer id) throws BeanNotFoundException {
         return countryRepository.findById(id).orElseThrow(() -> {
-            log.error(FAILED_TO_FIND_COUNTRY_ERROR_MESSAGE + "{}", id);
+            log.error(FAILED_TO_FIND_COUNTRY_ERROR_MESSAGE + ": {}", id);
             return new BeanNotFoundException(FAILED_TO_FIND_COUNTRY_ERROR_MESSAGE);
         });
     }

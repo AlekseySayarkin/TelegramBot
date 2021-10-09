@@ -3,6 +3,7 @@ package com.telegram.bot.web.controller;
 import com.telegram.bot.service.CountryService;
 import com.telegram.bot.web.dto.CountryDTO;
 import com.telegram.bot.web.validator.ValidatorUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,8 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
+@RequestMapping("/counties")
+@Api(tags = "County-controller")
 public class CountryController extends BaseController {
 
     private static final List<String> COUNTRY_FIELDS = List.of("id", "name");
@@ -55,7 +58,7 @@ public class CountryController extends BaseController {
             @ApiParam(value = "Page", required = true) @RequestParam Integer page,
             @ApiParam(value = "Size", required = true) @RequestParam Integer size,
             @ApiParam(value = "Sort type [asc, desc]", required = true) @RequestParam String sortType,
-            @ApiParam(value = "Sort by [id]", required = true) @RequestParam String sortBy) {
+            @ApiParam(value = "Sort by [id, name]", required = true) @RequestParam String sortBy) {
         ValidatorUtil.validatePagination(page, size);
         ValidatorUtil.validateSortWithFields(sortType, sortBy, COUNTRY_FIELDS);
         return countryService.getAllCountries(page, size, sortType, sortBy)

@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BaseController {
 
-    protected static final String COUNTRY = "country";
+    protected static final String CITY = "city";
 
     protected void validate(final Object object, final String objectName, final Validator validator)
     {
