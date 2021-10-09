@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Builder
@@ -29,7 +31,7 @@ public class CityDTO {
         city.setId(id);
         city.setName(name);
         city.setInfo(info);
-        city.setCountry(country.toCountry());
+        city.setCountry(Objects.nonNull(country) ? country.toCountry() : null);
         return city;
     }
 }

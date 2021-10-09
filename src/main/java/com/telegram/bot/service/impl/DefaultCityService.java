@@ -5,8 +5,8 @@ import com.telegram.bot.exception.BeanModificationException;
 import com.telegram.bot.exception.BeanNotFoundException;
 import com.telegram.bot.model.City;
 import com.telegram.bot.repository.CityRepository;
-import com.telegram.bot.repository.CountryRepository;
 import com.telegram.bot.service.CityService;
+import com.telegram.bot.service.CountryService;
 import com.telegram.bot.service.util.SortUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
@@ -28,11 +28,11 @@ public class DefaultCityService implements CityService {
     private static final String FAILED_TO_DELETE_CITY_ERROR_MESSAGE = "Failed to delete city";
 
     private final CityRepository cityRepository;
-    private final CountryRepository countryRepository;
+    private final CountryService countryService;
 
-    public DefaultCityService(CityRepository cityRepository, CountryRepository countryRepository) {
+    public DefaultCityService(CityRepository cityRepository, CountryService countryService) {
         this.cityRepository = cityRepository;
-        this.countryRepository = countryRepository;
+        this.countryService = countryService;
     }
 
     @Override
@@ -66,7 +66,8 @@ public class DefaultCityService implements CityService {
     @Transactional(rollbackFor = BeanCreationException.class)
     public City addCity(City city) throws BeanCreationException {
         try {
-            city.setCountry(countryRepository.getById(city.getCountry().getId()));
+            city.setId(null);
+            city.setCountry(countryService.getCountryById(city.getCountry().getId()));
             return cityRepository.save(city);
         } catch (DataAccessException e) {
             log.error(FAILED_TO_SAVE_CITY_ERROR_MESSAGE);
@@ -91,8 +92,8 @@ public class DefaultCityService implements CityService {
     private void updateExistingCityFields(City existingCity, City city) {
         existingCity.setName(Objects.nonNull(city.getName()) ? city.getName() : existingCity.getName());
         existingCity.setInfo(Objects.nonNull(city.getInfo()) ? city.getInfo() : existingCity.getInfo());
-        existingCity.setCountry(Objects.nonNull(city.getCountry().getId()) ?
-                countryRepository.getById(city.getCountry().getId()) : existingCity.getCountry());
+        existingCity.setCountry(Objects.nonNull(city.getCountry()) ?
+                countryService.getCountryById(city.getCountry().getId()) : existingCity.getCountry());
     }
 
     @Override

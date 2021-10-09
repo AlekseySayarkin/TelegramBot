@@ -38,10 +38,10 @@ public final class ValidatorUtil {
             throw new BeanValidationException("Page must be positive");
         }
         if (size <= 0) {
-            throw new BeanValidationException("Page must be positive");
+            throw new BeanValidationException("Size must be positive");
         }
         if (size >= MAX_PAGE_SIZE) {
-            throw new BeanValidationException("Page size is to big");
+            throw new BeanValidationException("Size size is to big");
         }
     }
 
